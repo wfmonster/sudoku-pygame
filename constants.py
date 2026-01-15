@@ -33,3 +33,4 @@ BRONZE = (116, 101, 75)
 # ------ Screen Dimensions --------- 
 SURFACE_HEIGHT = 400
 SURFACE_WIDTH = 400
+FPS = 30 
