@@ -31,8 +31,8 @@ COPPER = (184, 115, 51)
 BRONZE = (116, 101, 75)
 
 # ------ Screen Dimensions --------- 
-SURFACE_HEIGHT = 400
-SURFACE_WIDTH = 400
+SURFACE_HEIGHT = 500
+SURFACE_WIDTH = 500
 FPS = 30 
 
 # ------ Puzzle Difficulty --------- 
@@ -47,4 +47,6 @@ BOARD_SIZE = CELL_SIZE * NUM_CELLS
 
 # ------ Colors for Highlighting  --------- 
 HIGHLIGHT_COLOR = (70, 130, 180) 
-PLAYER_NUMBER_COLOR = (100, 200, 100)  
+PLAYER_NUMBER_COLOR = (100, 200, 100)
+CORRECT_COLOR = (50, 205, 50)       # Bright green for correct answers
+INCORRECT_COLOR = (220, 80, 80)     # Red for incorrect answers  

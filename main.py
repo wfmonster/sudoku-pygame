@@ -13,7 +13,7 @@ import sys
 # contains constants for the pygame library
 from pygame.locals import *
 from constants import WHITE, BLACK, SURFACE_HEIGHT, SURFACE_WIDTH, FPS
-from constants import HIGHLIGHT_COLOR, PLAYER_NUMBER_COLOR 
+from constants import HIGHLIGHT_COLOR, PLAYER_NUMBER_COLOR, CORRECT_COLOR, INCORRECT_COLOR
 from constants import NUM_CELLS, CELL_SIZE, BOARD_SIZE
 from generate_puzzle import create_puzzle_from_library
 
@@ -24,6 +24,46 @@ def get_board_position():
     margin_x = (SURFACE_WIDTH - BOARD_SIZE)//2
     margin_y = (SURFACE_HEIGHT - BOARD_SIZE)//2
     return margin_x, margin_y
+
+
+def is_board_complete(puzzle_board, player_board):
+    """Check if all cells are filled (no empty cells remaining)."""
+    for row in range(NUM_CELLS):
+        for col in range(NUM_CELLS):
+            original = puzzle_board[row][col]
+            player = player_board[row][col]
+            # If original is empty and player hasn't filled it
+            if (original is None or original == 0) and (player is None or player == 0):
+                return False
+    return True
+
+
+def check_solution(puzzle_board, player_board, solution_board):
+    """
+    Check if the player's solution is correct.
+    Returns True if all player entries match the solution.
+    """
+    for row in range(NUM_CELLS):
+        for col in range(NUM_CELLS):
+            original = puzzle_board[row][col]
+            # Only check cells that the player filled in
+            if original is None or original == 0:
+                player_value = player_board[row][col]
+                solution_value = solution_board[row][col]
+                if player_value != solution_value:
+                    return False
+    return True
+
+
+def is_cell_correct(row, col, puzzle_board, player_board, solution_board):
+    """Check if a specific player's entered cell is correct."""
+    original = puzzle_board[row][col]
+    # Only check player-entered cells
+    if original is None or original == 0:
+        player_value = player_board[row][col]
+        if player_value is not None and player_value != 0:
+            return player_value == solution_board[row][col]
+    return True  # Original cells are always "correct"
 
 
 def get_cell_from_mouse(pos):
@@ -60,7 +100,7 @@ def draw_highlight(surface, selected_cell):
     pygame.draw.rect(surface, HIGHLIGHT_COLOR, (x, y, CELL_SIZE, CELL_SIZE))
 
 
-def draw_puzzle(surface, puzzle_board, player_board, font):
+def draw_puzzle(surface, puzzle_board, player_board, solution_board, font):
     """Draw the puzzle numbers onto the grid."""
 
     margin_x, margin_y = get_board_position() 
@@ -77,9 +117,12 @@ def draw_puzzle(surface, puzzle_board, player_board, font):
                 value = original_value
                 color = WHITE
             elif player_value is not None and player_value != 0:
-                # Player-entered number
+                # Player-entered number - check if correct
                 value = player_value
-                color = PLAYER_NUMBER_COLOR
+                if is_cell_correct(row, col, puzzle_board, player_board, solution_board):
+                    color = PLAYER_NUMBER_COLOR
+                else:
+                    color = INCORRECT_COLOR
             else:
                 continue  # Empty cell
 
@@ -128,7 +171,7 @@ def main():
     # draw the title of the game onto the surface.
     text_surface = title_font.render('Lofi-Sudoku', True, WHITE)
     text_rect = text_surface.get_rect()
-    text_rect.midtop = (SURFACE_WIDTH//2, 5)
+    text_rect.midtop = (SURFACE_WIDTH//2, 15)
 
     # Generate a puzzle and solution
     puzzle, solution = create_puzzle_from_library() 
@@ -138,6 +181,9 @@ def main():
 
     # track the currently selected cell. 
     selected_cell = None
+    
+    # track if the game has been won
+    game_won = False
     
     # --- Main Game Loop ---- 
     # handles events, updates game state and draws the game state to the window
@@ -183,12 +229,26 @@ def main():
                     elif event.key in (K_DELETE, K_BACKSPACE, K_0, K_KP0):
                         player_board[row][col] = 0  
                     
+        # --- Check Win Condition ----
+        if not game_won:
+            if is_board_complete(puzzle.board, player_board):
+                if check_solution(puzzle.board, player_board, solution.board):
+                    game_won = True
+        
         # --- Draw Game State ---- 
         draw_highlight(DISPLAYSURF, selected_cell) 
         draw_grid(DISPLAYSURF)
-        draw_puzzle(DISPLAYSURF, puzzle.board, player_board, puzzle_font)
-        #adds the title surface to the display surface.
+        draw_puzzle(DISPLAYSURF, puzzle.board, player_board, solution.board, puzzle_font)
+        
+        # Draw title
         DISPLAYSURF.blit(text_surface, text_rect)
+        
+        # Draw win message if the game is won
+        if game_won:
+            win_text = title_font.render('You Win!', True, CORRECT_COLOR)
+            win_rect = win_text.get_rect()
+            win_rect.midbottom = (SURFACE_WIDTH // 2, SURFACE_HEIGHT - 15)
+            DISPLAYSURF.blit(win_text, win_rect)
 
         # draws the surface object returned by display.set_mode() to the screen
         # happens once per frame
