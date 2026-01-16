@@ -71,14 +71,18 @@ def create_puzzle(grid, difficulty=40):
     return puzzle
 
 
-def create_puzzle_from_library():
+def create_puzzle_from_library(difficulty=MEDIUM_DIFFICULTY):
     """
     Uses the py-sudoku library to generate puzzles.
     Docs: https://pypi.org/project/py-sudoku/
+    
+    Args:
+        difficulty: Float between 0 and 1 (higher = harder)
+                   Use EASY_DIFFICULTY, MEDIUM_DIFFICULTY, or HARD_DIFFICULTY
     """
     from sudoku import Sudoku 
     # initializes a puzzle with a 3x3 subgrid and given difficulty.
-    puzzle = Sudoku(3).difficulty(MEDIUM_DIFFICULTY)
+    puzzle = Sudoku(3).difficulty(difficulty)
     solution = puzzle.solve()
     return puzzle, solution
 

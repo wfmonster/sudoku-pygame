@@ -1,3 +1,10 @@
+#! /usr/bin/env python3
+# ------------------------------------------------------------
+# constants.py 
+# Constants for the Lofi Sudoku Game 
+# By: Beck Bishp 
+# Last Updated: 01/16/2026
+# ------------------------------------------------------------
 
 # ------ Colors --------- 
 BLACK = (0, 0, 0)
@@ -49,4 +56,15 @@ BOARD_SIZE = CELL_SIZE * NUM_CELLS
 HIGHLIGHT_COLOR = (70, 130, 180) 
 PLAYER_NUMBER_COLOR = (100, 200, 100)
 CORRECT_COLOR = (50, 205, 50)       # Bright green for correct answers
-INCORRECT_COLOR = (220, 80, 80)     # Red for incorrect answers  
+INCORRECT_COLOR = (220, 80, 80)     # Red for incorrect answers
+
+# ------ Button Colors --------- 
+BUTTON_COLOR = (60, 60, 80)
+BUTTON_HOVER_COLOR = (80, 80, 110)
+BUTTON_TEXT_COLOR = WHITE
+BUTTON_SELECTED_COLOR = (70, 130, 180)
+
+# ------ Game States --------- 
+STATE_MENU = "menu"
+STATE_PLAYING = "playing"
+STATE_GAME_OVER = "game_over"  
