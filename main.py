@@ -1,19 +1,21 @@
+#! /usr/bin/env python3
+
+# ------------------------------------------------------------
+# main.py 
+# Lofi Sudoku Game 
+# By: Beck Bishp 
+# Last Updated: 01/16/2026
+# ------------------------------------------------------------
+
 import pygame
 import sys
 
 # contains constants for the pygame library
 from pygame.locals import *
 from constants import WHITE, BLACK, SURFACE_HEIGHT, SURFACE_WIDTH, FPS
+from constants import HIGHLIGHT_COLOR, PLAYER_NUMBER_COLOR 
+from constants import NUM_CELLS, CELL_SIZE, BOARD_SIZE
 from generate_puzzle import create_puzzle_from_library
-
-# grid constants 
-NUM_CELLS = 9 
-CELL_SIZE = 36 
-BOARD_SIZE = CELL_SIZE * NUM_CELLS 
-
-# colors for highlighting and player numbers
-HIGHLIGHT_COLOR = (70, 130, 180) 
-PLAYER_NUMBER_COLOR = (100, 200, 100)  
 
 
 def get_board_position():
@@ -22,6 +24,7 @@ def get_board_position():
     margin_x = (SURFACE_WIDTH - BOARD_SIZE)//2
     margin_y = (SURFACE_HEIGHT - BOARD_SIZE)//2
     return margin_x, margin_y
+
 
 def get_cell_from_mouse(pos):
     """Convert mouse position to grid cell coordinates (row, col).
@@ -39,6 +42,7 @@ def get_cell_from_mouse(pos):
 
     return None
 
+
 def draw_highlight(surface, selected_cell): 
     """Draw highlight around the selected cell.""" 
 
@@ -54,7 +58,6 @@ def draw_highlight(surface, selected_cell):
 
     # Draw filled rectangle around the cell. 
     pygame.draw.rect(surface, HIGHLIGHT_COLOR, (x, y, CELL_SIZE, CELL_SIZE))
-
 
 
 def draw_puzzle(surface, puzzle_board, player_board, font):
@@ -136,7 +139,7 @@ def main():
     # track the currently selected cell. 
     selected_cell = None
     
-    # creates the main game loop
+    # --- Main Game Loop ---- 
     # handles events, updates game state and draws the game state to the window
     while True:
         # clears screen and prevents ghosting / overdraw 
@@ -191,6 +194,7 @@ def main():
         # happens once per frame
         pygame.display.update()
         fpsClock.tick(FPS)
+
 
 if __name__ == "__main__":
     main()

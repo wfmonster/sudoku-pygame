@@ -34,3 +34,17 @@ BRONZE = (116, 101, 75)
 SURFACE_HEIGHT = 400
 SURFACE_WIDTH = 400
 FPS = 30 
+
+# ------ Puzzle Difficulty --------- 
+EASY_DIFFICULTY = 0.3 
+MEDIUM_DIFFICULTY = 0.4 
+HARD_DIFFICULTY = 0.5 
+
+# ------ Grid Constants --------- 
+NUM_CELLS = 9 
+CELL_SIZE = 36 
+BOARD_SIZE = CELL_SIZE * NUM_CELLS 
+
+# ------ Colors for Highlighting  --------- 
+HIGHLIGHT_COLOR = (70, 130, 180) 
+PLAYER_NUMBER_COLOR = (100, 200, 100)  

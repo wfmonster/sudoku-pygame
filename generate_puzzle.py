@@ -1,13 +1,19 @@
+#! /usr/bin/env python3
+
+# ------------------------------------------------------------
+# generate_puzzle.py 
+# Generates puzzles and solutions for the Lofi Sudoku Game 
+# By: Beck Bishp 
+# Last Updated: 01/16/2026
+# ------------------------------------------------------------
+
 import random 
+from constants import EASY_DIFFICULTY, MEDIUM_DIFFICULTY, HARD_DIFFICULTY
 
-EASY_DIFFICULTY = 0.3 
-MEDIUM_DIFFICULTY = 0.4 
-HARD_DIFFICULTY = 0.5 
-
-import random
 
 def generate_solved_grid():
     """Generate a complete valid Sudoku grid using backtracking."""
+
     grid = [[0] * 9 for _ in range(9)]
     
     def is_valid(grid, row, col, num):
@@ -79,10 +85,8 @@ def create_puzzle_from_library():
 
 
 if __name__ == "__main__":
-    # solved = generate_solved_puzzle()
-    # puzzle = create_puzzle(solved, difficulty=MEDIUM_DIFFICULTY*100)
-    # print(puzzle)
 
+    # small test to ensure the puzzle generation is working.
     puzzle, solution = create_puzzle_from_library()
     print(puzzle.board)
     print(solution.board)
